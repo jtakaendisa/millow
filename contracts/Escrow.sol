@@ -15,6 +15,13 @@ contract Escrow {
     address public inspector;
     address public lender;
 
+    mapping(uint256 => bool) public isListed;
+    mapping(uint256 => uint256) public purchasePrice;
+    mapping(uint256 => uint256) public escrowAmount;
+    mapping(uint256 => address) public buyer;
+    mapping(uint256 => bool) public inspectionPassed;
+    mapping(uint256 => mapping(address => bool)) public approval;
+
     modifier onlyBuyer(uint256 _nftID) {
         require(msg.sender == buyer[_nftID], "Only buyer can call this method");
         _;
@@ -29,13 +36,6 @@ contract Escrow {
         require(msg.sender == inspector, "Only inspector can call this method");
         _;
     }
-
-    mapping(uint256 => bool) public isListed;
-    mapping(uint256 => uint256) public purchasePrice;
-    mapping(uint256 => uint256) public escrowAmount;
-    mapping(uint256 => address) public buyer;
-    mapping(uint256 => bool) public inspectionPassed;
-    mapping(uint256 => mapping(address => bool)) public approval;
 
     constructor(
         address _nftAddress,

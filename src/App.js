@@ -18,6 +18,8 @@ function App() {
   const [escrow, setEscrow] = useState(null);
   const [account, setAccount] = useState(null);
   const [homes, setHomes] = useState(null);
+  const [home, setHome] = useState(null);
+  const [toggle, setToggle] = useState(null);
 
   useEffect(() => {
     const loadBlockchainData = async () => {
@@ -60,8 +62,14 @@ function App() {
         setAccount(account);
       });
     };
+
     loadBlockchainData();
   }, []);
+
+  const handleToggle = (home) => {
+    setHome(home);
+    setToggle((prev) => !prev);
+  };
 
   return (
     <div>
@@ -69,12 +77,10 @@ function App() {
       <Search />
       <div className="cards__section">
         <h3>Homes For You</h3>
-
         <hr />
-
         <div className="cards">
-          {homes.map((home) => (
-            <div key={home.id} className="card">
+          {homes?.map((home) => (
+            <div key={home.id} className="card" onClick={() => handleToggle(home)}>
               <div className="card__image">
                 <img src={home.image} alt="Home" />
               </div>
@@ -91,6 +97,15 @@ function App() {
           ))}
         </div>
       </div>
+      {toggle && (
+        <Home
+          home={home}
+          provider={provider}
+          escrow={escrow}
+          onClose={handleToggle}
+          account={account}
+        />
+      )}
     </div>
   );
 }

@@ -4,7 +4,7 @@
 // You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
 // will compile your contracts, add the Hardhat Runtime Environment's members to the
 // global scope, and execute the script.
-const hre = require('hardhat');
+const { ethers } = require('hardhat');
 
 const tokens = (n) => {
   return ethers.utils.parseUnits(n.toString(), 'ether');
@@ -53,7 +53,7 @@ async function main() {
   }
 
   // Listing properties...
-  letransaction = await escrow
+  let transaction = await escrow
     .connect(seller)
     .list(1, buyer.address, tokens(20), tokens(10));
   await transaction.wait();
